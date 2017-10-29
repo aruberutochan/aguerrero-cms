@@ -13,13 +13,14 @@ class PostTable extends Migration
      */
     public function up()
     {
-        Schema::create('post', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->text('title');
             $table->longText('body')->nullable();
             $table->text('summary')->nullable();
+            $table->text('status')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class PostTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post');
+        Schema::dropIfExists('posts');
     }
 }

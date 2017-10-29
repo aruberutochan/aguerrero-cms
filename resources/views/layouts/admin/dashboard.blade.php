@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,95 +14,105 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+
 <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
+    <div class='admin-dashboard'>
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+        <header>
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+                
+                <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        Task List
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="/admin"><span class="ion-ios-settings"></span> Dashboard </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="/home"><span class="ion-md-home"></span>  Blog  </a>
+                        </li>
+                        
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    <span class="fa fa-user"> </span> {{ Auth::user()->name }} <span class="caret"></span>
+                    <ul class="navbar-nav mr-right">
+                
+                        <li class="nav-item dropdown">
+                        
+                            <a class="btn btn-outline-primary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="ion-ios-contact navbar-user"></span>
+                                {{ Auth::user()->name }}
+                                <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{ route('logout') }}" 
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                                        Logout
                                 </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
-                                </ul>
-                            </li>
-                        @endif
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                            </div>
+                        </li>
                     </ul>
+                    
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
 
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-3 col-md-2 sidebar">
-                    <ul class="nav nav-sidebar">
-                        <li><a href="/customers"><span class="fa fa-user"> </span> Customers </a></li>                        
-                        <li><a href="/events"><span class="fa fa-bolt"> </span> Events</a></li>
-                        <li><a href="/products"><span class="fa fa-cube"> </span> Products</a></li>
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li><a href="/segments"><span class="fa fa-pie-chart"> </span> Segments</a></li>
-                        <li><a href=""><span class="fa fa-paper-plane"> </span> Campaigns</a></li>
-                        <li><a href=""><span class="fa fa-area-chart"> </span> Reports</a></li>
-                        <li><a href=""><span class="fa fa-paint-brush"> </span> Email Composer</a></li>
-                       
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li><a href=""><span class="fa fa-eye"> </span> The Others</a></li>
-                        <li><a href=""><span class="glyphicon glyphicon-fire"> </span> White Walkers</a></li>
-                       
-                    </ul>
-                    <ul class="nav nav-sidebar">
-                        <li><a href=""><span class="fa fa-cog"> </span> Configuration</a></li>
-                        <li><a href=""><span class="fa fa-exchange"> </span> Import/Export</a></li>
-                        <li><a href=""><span class="fa fa-bullseye"> </span> Logs</a></li>
-                        <li><a href="/tasks"><span class="fa fa-tasks"> </span> Tasks</a></li>
-                    </ul>
+                <div class="row">
+                    <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/post"> <span class="ion-ios-paper-plane"> </span> Posts </a>
+                            </li>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a href="/admin/post/create" class="nav-link"> <span class="ion-ios-add"> </span> Add Post </a>                                
+                                </li>
+                            </ul>
+                        </ul>
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/page"> <span class="ion-ios-document"> </span> Pages</a>
+                            </li>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a href="/admin/page/create" class="nav-link"><span class="ion-ios-add"> </span> Add Page </a>                                
+                                </li>
+                            </ul>
+                        </ul>
+
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/users"> <span class="ion-ios-person"> </span> Users</a>
+                            </li>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a href="/admin/users/create" class="nav-link"> <span class="ion-ios-add"> </span> Add User </a>                                
+                                </li>
+                            </ul>
+                        </ul>
+                    </nav>
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+                <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
                     @yield('content')
-                </div>
+                </main>
             </div>
         </div>
+    </div>
 
-        <!-- JavaScripts -->
-       
-        {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>  
+    <script src="{{ asset('js/app.js') }}"></script>
 
 
-    </body>
+</body>
+
 </html>
-

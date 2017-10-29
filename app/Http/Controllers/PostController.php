@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
 
 class PostController extends Controller
 {
@@ -13,7 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('post.index');
+        $posts = Post::orderBy('created_at', 'desc')->get();
+        return view('post.index', ['posts' => $posts]);
     }
 
     /**
@@ -26,6 +28,11 @@ class PostController extends Controller
         return view('post.create');
     }
 
+    public function dashboard() {
+        $posts = Post::orderBy('created_at', 'desc')->get();
+        return view('post.dashboard',  ['posts' => $posts] );
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -34,7 +41,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $this->validate($request, [
+            'title' => 'required',
+            
+        ]);            
+        
+        $post = $request->user()->posts()->create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'status' => 'publish'
+        ]);
+              
+        return redirect()->route('post.show', ['id' => $post->id]);    
     }
 
     /**
@@ -43,9 +62,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show(Request $request, Post $post)
+    {   
+        return view('post.view', ['post' => $post]);
     }
 
     /**
@@ -54,9 +73,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+
+        return view('post.create', ['post' => $post]);
     }
 
     /**
@@ -66,9 +86,22 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        
+        $this->validate($request, [
+            'title' => 'required',            
+        ]);
+        
+        $post->update([
+            'title' => $request->title,
+            'body' => $request->body,
+            'status' => 'publish',
+
+        ]);
+
+        return redirect()->route('post.show', ['id' => $post->id]);   
+            
     }
 
     /**
@@ -77,8 +110,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        // $this->authorize('destroyCustomer', $customer);
+        
+        $post->delete();
+
+        return redirect('/admin/post');     
     }
 }

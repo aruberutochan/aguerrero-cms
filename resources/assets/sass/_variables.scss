@@ -1,6 +1,6 @@
 
 // Body
-$body-bg: #f5f8fa;
+$body-bg: #ffffff;
 
 // Borders
 $laravel-border-color: darken($body-bg, 10%);
@@ -22,6 +22,7 @@ $font-family-sans-serif: "Raleway", sans-serif;
 $font-size-base: 1rem;
 $line-height-base: 1.6;
 $text-color: #636b6f;
+$ionicons-font-path: "../../../node_modules/ionicons/dist/fonts" !default;
 
 // Navbar
 $navbar-default-bg: #fff;

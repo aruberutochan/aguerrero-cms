@@ -2,6 +2,6 @@
     @include('layouts.admin.dashboard')
 
 @else
-    @include('layouts.frontend.app')
+    @include('layouts.frontend.blog')
 
 @endif

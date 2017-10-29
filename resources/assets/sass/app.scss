@@ -8,3 +8,11 @@
 // Bootstrap
 // @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 @import "node_modules/bootstrap/scss/bootstrap";
+
+// Ionicons
+
+@import 'node_modules/ionicons/dist/scss/ionicons.scss';
+
+// My styles
+@import './styles.scss';
+@import './admin-styles.scss';
