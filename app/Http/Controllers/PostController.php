@@ -43,15 +43,21 @@ class PostController extends Controller
     {
         // dd($request);
         $this->validate($request, [
-            'title' => 'required',
-            
-        ]);            
-        
+            'title' => 'required',           
+        ]);
+        $body = $request->input('body');
+        $body = $this->convertB64Images($body);
         $post = $request->user()->posts()->create([
             'title' => $request->title,
-            'body' => $request->body,
+            'body' => $body,
             'status' => 'publish'
         ]);
+
+        // Add image to attachments
+
+        if ($request->uploaded_file) {
+            $attachment = $post->attach(\Request::file('uploaded_file'));
+        }
               
         return redirect()->route('post.show', ['id' => $post->id]);    
     }
@@ -64,7 +70,9 @@ class PostController extends Controller
      */
     public function show(Request $request, Post $post)
     {   
-        return view('post.view', ['post' => $post]);
+        $allAttachments = $post->attachments()->get();
+
+        return view('post.view', ['post' => $post, 'allAttachments' => $allAttachments]);
     }
 
     /**
@@ -77,6 +85,32 @@ class PostController extends Controller
     {
 
         return view('post.create', ['post' => $post]);
+    }
+
+    private function convertB64Images($detail){
+      
+        $dom = new \DomDocument();
+
+        $dom->loadHtml($detail, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);    
+
+        $images = $dom->getElementsByTagName('img');
+
+        foreach($images as $k => $img){
+
+            $data = $img->getAttribute('src');
+            list($type, $data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $data = base64_decode($data);
+            $image_name= "/storage/upload/" . time().$k.'.png';
+            $path = public_path() . $image_name;
+            file_put_contents($path, $data);
+            $img->removeAttribute('src');
+            $img->setAttribute('src', $image_name);
+        }
+        $detail = $dom->saveHTML();
+
+        return $detail;
+
     }
 
     /**
@@ -92,13 +126,25 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required',            
         ]);
-        
+
+        $body = $request->input('body');
+        $body = $this->convertB64Images($body);        
         $post->update([
             'title' => $request->title,
             'body' => $request->body,
             'status' => 'publish',
 
         ]);
+
+        $attachments = $post->attachments();
+       
+        if ($attachments) {
+            $attachments->delete(); // Will also delete the file on the storage by default
+        }
+        
+        if ($request->uploaded_file) {
+            $attachment = $post->attach(\Request::file('uploaded_file'));
+        }
 
         return redirect()->route('post.show', ['id' => $post->id]);   
             

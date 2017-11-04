@@ -6,7 +6,6 @@
 </div>
 <div class="col-md">
     <a href="{{route('post.create')}}" class="btn btn-success float-right"> New Post</a>
-
 </div>
 
 </div>

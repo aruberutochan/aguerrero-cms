@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div class='admin-dashboard'>
+    <div id="app" class='admin-dashboard'>
 
         <header>
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -109,9 +109,15 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-
+     {{--  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.css" rel="stylesheet">  --}}
+    {{--  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.js"></script>  --}}
     <script src="{{ asset('js/app.js') }}"></script>
-
+        <script>
+      $('.summernote').summernote({
+        tabsize: 2,
+        height: 200
+      });
+    </script>
 
 </body>
 

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "ionicons": "^3.0.0",
-    "popper.js": "^1.12.6"
+    "popper.js": "^1.12.6",
+    "summernote": "^0.8.8"
   }
 }
