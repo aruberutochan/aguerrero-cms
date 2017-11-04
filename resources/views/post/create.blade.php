@@ -28,6 +28,11 @@
         {{ Form::label('uploaded_file', 'Image') }}
         {{ Form::file('uploaded_file', null, ['class' => 'form-control']) }}
     </div>
+    <div class="form-group">
+        <!-- name -->
+        {{ Form::label('tags', 'Tags') }}
+        {{ Form::text('tags',null, ['class' => 'form-control tags' ]) }}
+    </div>
        
     <div class="form-group">
     {{ Form::submit('Add Post', ['class' => 'btn btn-success float-right']) }}
@@ -36,5 +41,7 @@
 
 
 {!! Form::close() !!}
+
+
 
 @endsection

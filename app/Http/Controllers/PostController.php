@@ -25,7 +25,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+        $tags = Post::existingTags()->pluck('name');
+        return view('post.create', ['tags' => $tags]);
     }
 
     public function dashboard() {
