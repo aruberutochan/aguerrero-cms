@@ -97,12 +97,22 @@
                                 </li>
                             </ul>
                         </ul>
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/category"> <span class="ion-ios-pricetag"> </span> Taxonomies</a>
+                            </li>                            
+                        </ul>
                     </nav>
                 </div>
 
                 <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
                     @yield('content')
                 </main>
+
+                <footer>
+                
+                </footer>
+
             </div>
         </div>
     </div>
@@ -110,14 +120,51 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
      {{--  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.css" rel="stylesheet">  --}}
-    {{--  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.js"></script>  --}}
+    {{--  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote-bs4.js"></script>  --}}    
     <script src="{{ asset('js/app.js') }}"></script>
         <script>
       $('.summernote').summernote({
         tabsize: 2,
         height: 200
       });
-    </script>
+
+      $(document).on("focus keyup", "input.autocomplete", function () {
+          // Cache useful selectors
+          var $input = $(this);
+          var $dropdown = $input.next("ul.dropdown-menu");
+
+          // Create the no matches entry if it does not exists yet
+          if (!$dropdown.data("containsNoMatchesEntry")) {
+              $("input.autocomplete + ul.dropdown-menu").append('<li class="no-matches hidden"><a>No matches</a></li>');
+              $dropdown.data("containsNoMatchesEntry", true);
+          }
+
+          // Show only matching values
+          $dropdown.find("li:not(.no-matches)").each(function (key, li) {
+              var $li = $(li);
+              $li[new RegExp($input.val(), "i").exec($li.text()) ? "removeClass" : "addClass"]("hidden");
+          });
+
+          // Show a specific entry if we have no matches
+          $dropdown.find("li.no-matches")[$dropdown.find("li:not(.no-matches):not(.hidden)").length > 0 ? "addClass" : "removeClass"]("hidden");
+      });
+      $(document).on("click", "input.autocomplete + ul.dropdown-menu li", function (e) {
+          // Prevent any action on the window location
+          e.preventDefault();
+
+          // Cache useful selectors
+          $li = $(this);
+          $input = $li.parent("ul").prev("input");
+
+          // Update input text with selected entry
+          if (!$li.is(".no-matches")) {
+              $input.val($li.text());
+          }
+      });
+
+</script>
+
+
 
 </body>
 

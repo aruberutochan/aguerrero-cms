@@ -59,6 +59,9 @@ class PostController extends Controller
         if ($request->uploaded_file) {
             $attachment = $post->attach(\Request::file('uploaded_file'));
         }
+
+        $post->untag();
+        $post->tag(explode(',', $request->tags));
               
         return redirect()->route('post.show', ['id' => $post->id]);    
     }
@@ -72,8 +75,8 @@ class PostController extends Controller
     public function show(Request $request, Post $post)
     {   
         $allAttachments = $post->attachments()->get();
-
-        return view('post.view', ['post' => $post, 'allAttachments' => $allAttachments]);
+        $tags = $post->tagNames();
+        return view('post.view', ['post' => $post, 'allAttachments' => $allAttachments, 'tags' => $tags]);
     }
 
     /**
@@ -84,8 +87,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-
-        return view('post.create', ['post' => $post]);
+        $tags = implode(', ', $post->tagNames());
+        return view('post.create', ['post' => $post, 'tags' => $tags]);
     }
 
     private function convertB64Images($detail){
@@ -146,7 +149,12 @@ class PostController extends Controller
         if ($request->uploaded_file) {
             $attachment = $post->attach(\Request::file('uploaded_file'));
         }
+        $post->untag();
+        if ($request->tags) {
 
+            $post->tag(explode(',', $request->tags));
+        }
+       
         return redirect()->route('post.show', ['id' => $post->id]);   
             
     }

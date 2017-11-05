@@ -23,6 +23,7 @@
     "ionicons": "^3.0.0",
     "popper.js": "^1.12.6",
     "selectize": "^0.12.4",
-    "summernote": "^0.8.8"
+    "summernote": "^0.8.8",
+    "typeahead.js": "^0.11.1"
   }
 }
