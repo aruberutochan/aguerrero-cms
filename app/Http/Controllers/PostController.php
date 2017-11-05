@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
-
+use Lecturize\Taxonomies\Traits\HasTaxonomies;
 class PostController extends Controller
 {
+    use HasTaxonomies;
     /**
      * Display a listing of the resource.
      *
@@ -58,6 +59,8 @@ class PostController extends Controller
         if ($request->uploaded_file) {
             $attachment = $post->attach(\Request::file('uploaded_file'));
         }
+
+
               
         return redirect()->route('post.show', ['id' => $post->id]);    
     }
