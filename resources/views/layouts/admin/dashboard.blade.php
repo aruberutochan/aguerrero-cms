@@ -96,6 +96,12 @@
                                     <a href="/admin/users/create" class="nav-link"> <span class="ion-ios-add"> </span> Add User </a>                                
                                 </li>
                             </ul>
+                            
+                        </ul>
+                         <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/taxonomy"> <span class="ion-ios-pricetag"> </span> Taxonomies</a>
+                            </li>                            
                         </ul>
                     </nav>
                 </div>

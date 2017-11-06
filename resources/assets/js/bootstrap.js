@@ -12,7 +12,9 @@ try {
 
     // require('bootstrap-sass');
     require('bootstrap');
-    require('../../../node_modules/summernote/dist/summernote-bs4.js')
+    require('../../../node_modules/summernote/dist/summernote-bs4.js');
+    require('../../aru_git_modules/bootstrap4-tagsinput/tagsinput.js');
+    
 } catch (e) {}
 
 /**

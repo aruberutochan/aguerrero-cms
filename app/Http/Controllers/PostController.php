@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
-use Lecturize\Taxonomies\Traits\HasTaxonomies;
+use Lecturize\Taxonomies\Models\Taxonomy;
+
 class PostController extends Controller
 {
-    use HasTaxonomies;
+
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +27,15 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create');
+        $allTags = Taxonomy::where('taxonomy', 'tags')->get();
+        $tags = $allTags->map(function ($item, $key) {
+            return $item->term->name;
+        });
+        $allCats = Taxonomy::where('taxonomy', 'category')->get();
+        $cats = $allCats->mapWithKeys(function ($item) {
+            return [$item->term->id => $item->term->name];
+        });
+        return view('post.create', ['tags' => '', 'categories' => $cats]);
     }
 
     public function dashboard() {
@@ -46,8 +55,12 @@ class PostController extends Controller
         $this->validate($request, [
             'title' => 'required',           
         ]);
+
         $body = $request->input('body');
-        $body = $this->convertB64Images($body);
+        if($body){
+            $body = $this->convertB64Images($body);
+        }
+        
         $post = $request->user()->posts()->create([
             'title' => $request->title,
             'body' => $body,
@@ -60,8 +73,14 @@ class PostController extends Controller
             $attachment = $post->attach(\Request::file('uploaded_file'));
         }
 
+        $post->removeAllTerms();
+        if ($request->tags) {
+            $post->addTerm(explode(',', $request->tags), 'tags');
+        }
+        if ($request->category) {
+            $post->addTerm($request->category, 'category');
+        }   
 
-              
         return redirect()->route('post.show', ['id' => $post->id]);    
     }
 
@@ -87,7 +106,21 @@ class PostController extends Controller
     public function edit(Post $post)
     {
 
-        return view('post.create', ['post' => $post]);
+        
+        $allTags = Taxonomy::where('taxonomy', 'tags')->get();
+        $allCats = Taxonomy::where('taxonomy', 'category')->get();
+        $cats = $allCats->mapWithKeys(function ($item) {
+            return [$item->term->id => $item->term->name];
+        });
+
+        $tags = $post->getTerms('tags');
+        $tagsNames = array();
+        foreach($tags as $tag) {
+            $tagsNames[] = $tag->name;
+        }
+        $tagsStr = implode(', ', $tagsNames);
+
+        return view('post.create', ['post' => $post, 'tags' => $tagsStr, 'categories' => $cats]);
     }
 
     private function convertB64Images($detail){
@@ -148,6 +181,13 @@ class PostController extends Controller
         if ($request->uploaded_file) {
             $attachment = $post->attach(\Request::file('uploaded_file'));
         }
+        $post->removeAllTerms();
+        if ($request->tags) {
+            $post->addTerm(explode(',', $request->tags), 'tags');
+        }
+        if ($request->category) {
+            $post->addTerm($request->category, 'category');
+        }   
 
         return redirect()->route('post.show', ['id' => $post->id]);   
             

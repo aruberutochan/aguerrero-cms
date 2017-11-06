@@ -24,6 +24,11 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
     Route::resource('post', 'PostController',['except' => [
         'index', 'show'
     ]]);
+
+    Route::resource('taxonomy', 'TaxonomyController', ['except' => [ 
+        'show'
+    ]]);
+
     Route::get('/post', 'PostController@dashboard');
 
     Route::get('/', 'DashboardController@index');
@@ -34,3 +39,7 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
 Route::resource('post', 'PostController', ['except' => [
     'create', 'store', 'update', 'destroy', 'edit'
 ]]);
+Route::resource('taxonomy', 'TaxonomyController', ['only' => [
+    'show'
+]]);
+
