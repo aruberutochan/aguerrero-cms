@@ -1,40 +1,48 @@
-@extends('layouts.app')
+@extends('layouts.app') @section('content')
+<div class="container">
 
-@section('content')
+    <h2> Create Post</h2>
 
-<h2> Create Post</h2>
+    @if(isset($post)) {{ Form::model($post, ['route' => ['post.update', $post], 'method' => 'put', 'files' => true]) }} @else
+    {{ Form::open(array('url' => '/admin/post', 'files' => true)) }} @endif {{Form::token()}}
 
-@if(isset($post))
-{{ Form::model($post, ['route' => ['post.update', $post], 'method' => 'put', 'files' => true]) }}   
-
-@else
-{{ Form::open(array('url' => '/admin/post', 'files' => true)) }} 
-@endif
-  
-
-    {{Form::token()}}
     <div class="form-group">
         <!-- name -->
-        {{ Form::label('title', 'Title') }}
-        {{ Form::text('title',null, ['class' => 'form-control', 'placeholder' => 'A descriptive title']) }}
+        {{ Form::label('title', 'Title') }} {{ Form::text('title',null, ['class' => 'form-control', 'placeholder' => 'A descriptive
+        title']) }}
     </div>
     <div class="form-group">
         <!-- name -->
-        {{ Form::label('body', 'Body') }}
-        {{ Form::textarea('body',null, ['class' => 'form-control summernote' ]) }}
+        {{ Form::label('body', 'Body') }} {{ Form::textarea('body',null, ['class' => 'form-control summernote' ]) }}
     </div>
     <div class="form-group">
         <!-- name -->
-        {{ Form::label('uploaded_file', 'Image') }}
-        {{ Form::file('uploaded_file', null, ['class' => 'form-control']) }}
+        {{ Form::label('uploaded_file', 'Image') }} {{ Form::file('uploaded_file', null, ['class' => 'form-control']) }}
     </div>
-       
     <div class="form-group">
-    {{ Form::submit('Add Post', ['class' => 'btn btn-success float-right']) }}
+        <!-- name -->
+        {{ Form::label('tags', 'Tags') }} 
+        <input type="text" id="tags" name='tags' value="{{$tags}}" data-role="tagsinput" class="form-control tags typeahead" />
+
     </div>
-   
+
+    <div class="form-group">
+        <!-- name -->
+        {{ Form::label('category', 'Category') }} 
+        {{ Form::select('category', $categories, null, ['placeholder' => 'Choose Category...', 'class'=>'custom-select']) }}
+
+    </div>
 
 
-{!! Form::close() !!}
+    <div class="form-group">
+        {{ Form::submit('Add Post', ['class' => 'btn btn-success float-right']) }}
+    </div>
+
+
+
+    {!! Form::close() !!}
+
+
+</div>
 
 @endsection

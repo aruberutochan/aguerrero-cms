@@ -169,6 +169,8 @@ return [
          */
 
         Collective\Html\HtmlServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
+        Lecturize\Taxonomies\TaxonomiesServiceProvider::class,
 
         /*
          * Application Service Providers...
