@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-
+use App\Menu;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -16,6 +16,13 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+        
+        if (Schema::hasTable('menus')) {
+            $m = new Menu();
+            $menus = $m->get()->groupBy('region');
+            view()->share('menus', $menus);
+        
+        }
         
     }
 

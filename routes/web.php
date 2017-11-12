@@ -24,16 +24,14 @@ Route::group(['prefix' => 'admin',  'middleware' => 'auth'], function()
     Route::resource('post', 'PostController',['except' => [
         'index', 'show'
     ]]);
-
     Route::resource('taxonomy', 'TaxonomyController', ['except' => [ 
         'show'
     ]]);
-
+    Route::resource('menu', 'MenuController');
+    Route::post('menu/{menu}/addlink/', 'MenuController@addLink')->name('menu.addLink');
+    Route::delete('menu/{menu}/deletelink/{link}', 'MenuController@deleteLink')->name('menu.deleteLink');
     Route::get('/post', 'PostController@dashboard');
-
-    Route::get('/', 'DashboardController@index');
-    
-    
+    Route::get('/', 'DashboardController@index');    
 });
 
 Route::resource('post', 'PostController', ['except' => [

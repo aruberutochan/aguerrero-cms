@@ -33,7 +33,7 @@
                         </li>
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="/home"><span class="ion-md-home"></span>  Blog  </a>
+                            <a class="nav-link" href="/"><span class="ion-md-home"></span>  Blog  </a>
                         </li>
                         
                     </ul>
@@ -97,6 +97,16 @@
                                 </li>
                             </ul>
                             
+                        </ul>
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/menu"> <span class="ion-ios-menu"> </span> Menus</a>
+                            </li>
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item">
+                                    <a href="/admin/menu/create" class="nav-link"><span class="ion-ios-add"> </span> Add Menu </a>                                
+                                </li>
+                            </ul>
                         </ul>
                          <ul class="nav nav-pills flex-column">
                             <li class="nav-item">

@@ -16,11 +16,19 @@
 </head>
 
 <body>
+
     <div id='app' class="public-blog">
         <header>
             <div class="blog-nav">
-                @component('layouts.components.main-menu')
-                @endcomponent            
+            @if(isset($menus['primary'][0]))
+                @component('layouts.components.main-menu', ['menu' => $menus['primary'][0] ])
+                @endcomponent
+            
+            @else
+                @component('layouts.components.main-menu', ['menu' => false])
+                @endcomponent
+            @endif
+
             </div>  
         </header>
 

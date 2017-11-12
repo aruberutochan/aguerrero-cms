@@ -1,22 +1,28 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
 
-        <a class="navbar-brand" href="/home">aguerrero.es</a>
+        <a class="navbar-brand" href="/">aguerrero.es</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarsExample09">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('post.index')}}">Posts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Courses</a>
-                </li>
-
+            @if($menu)
+                <ul class="navbar-nav mr-auto {{$menu->css_class}}" id="{{$menu->css_id ? $menu->css_id : hash('md5', $menu->id)}}"> 
+                    @foreach($menu->links as $link)
+                    <li class="nav-item">
+                        <a  id="{{$link->css_id ? $link->css_id : hash('md5', $link->id)}}" class="nav-link {{$link->css_class}}" href="{{$link->url}}">{{$link->name}}</a>
+                    </li>
+                    @endforeach                
+                </ul>
+               
+            @else
+            <ul class="navbar-nav mr-auto"> 
+                           
             </ul>
+
+            @endif
             <ul class="navbar-nav mr-right">
 
                 @guest
